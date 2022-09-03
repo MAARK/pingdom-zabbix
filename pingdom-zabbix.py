@@ -3,16 +3,20 @@
 #
 # modules
 #
+from __future__ import print_function
+from future import standard_library
+standard_library.install_aliases()
+from builtins import str
 import json
 import re
 import requests
 import subprocess
-import ConfigParser
+import configparser
 
 #
 # pull in the config
 #
-config = ConfigParser.ConfigParser()
+config = configparser.ConfigParser()
 config.read('pingdom-zabbix.ini')
 
 #
@@ -20,13 +24,13 @@ config.read('pingdom-zabbix.ini')
 #
 def zabbix_trapper(cmd_args):
     try:
-        print ' '.join(cmd_args)
-        print subprocess.check_output(cmd_args)
+        print(' '.join(cmd_args))
+        print(subprocess.check_output(cmd_args))
     except subprocess.CalledProcessError as e:
-        print "EXCEPTION"
-        print "returncode:", e.returncode
-        print "cmd:", e.cmd
-        print "output:", e.output
+        print("EXCEPTION")
+        print("returncode:", e.returncode)
+        print("cmd:", e.cmd)
+        print("output:", e.output)
 
 #
 # pull pingdom data (checks and values)
@@ -113,7 +117,7 @@ try:
         zabbix_status(data)
         zabbix_resptime(data)
     else:
-        print "EXCEPTION: Bad Request; HTTP {}".format(str(res.status_code))
+        print("EXCEPTION: Bad Request; HTTP {}".format(str(res.status_code)))
 
 except Exception as e:
-    print "EXCEPTION: {}".format(str(e))
+    print("EXCEPTION: {}".format(str(e)))
