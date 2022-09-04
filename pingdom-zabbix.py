@@ -106,8 +106,15 @@ try:
         username = config.get('PINGDOM', 'username'),
         password = config.get('PINGDOM', 'password')
     )
+
+    appkey = pingdom['appkey']
+    headers = {
+        'Authorization': 'Bearer ' +  appkey,
+    }
+
     # connect to pingdom
-    res = requests.get(pingdom['apiurl'], auth=(pingdom['username'],pingdom['password']), headers={'App-Key': pingdom['appkey']})
+    res = requests.get(pingdom['apiurl'], headers=headers)
+
     if res.status_code == requests.codes.ok:
         # fetch pingdom data (checks and values)
         data = pingdom_data(res)
